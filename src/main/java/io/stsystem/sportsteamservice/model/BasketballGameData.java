@@ -164,7 +164,7 @@ public class BasketballGameData {
         }
     }
     // Conncetion to database
-    private java.sql.Connection connect(){
+    private Connection connect(){
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
 
