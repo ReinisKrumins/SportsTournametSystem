@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.sql.*;
 
@@ -17,6 +18,7 @@ import java.sql.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class BasketballGameData {
 
     @Id
@@ -40,107 +42,61 @@ public class BasketballGameData {
         setStartDate(startDate);
     }
 
-    public void readBbGameDates() {
+    public void readBbGameData() throws Exception{
         // Read game start date
-        try(Scanner input = new Scanner(new File("src/main/resources/gameData/bb-game-date.txt"))){
-            while(input.hasNextLine()) {
-                startDate = "";
-                String line;
+        Scanner input = new Scanner(new File("src/main/resources/gameData/bb-game-date.txt"));
+        Scanner input2 = new Scanner(new File("src/main/resources/gameData/bb-game-time.txt"));
+        Scanner input3 = new Scanner(new File("src/main/resources/gameData/bb-game-visitorTeam.txt"));
+        Scanner input4 = new Scanner(new File("src/main/resources/gameData/bb-game-visitorPoints.txt"));
+        Scanner input5 = new Scanner(new File("src/main/resources/gameData/bb-game-homeTeam.txt"));
+        Scanner input6 = new Scanner(new File("src/main/resources/gameData/bb-game-homePoints.txt"));
+
+        while(input.hasNextLine()
+                && input2.hasNextLine()
+                && input3.hasNextLine()
+                && input4.hasNextLine()
+                && input5.hasNextLine()
+                && input5.hasNextLine()) {
+
+                String line, line2, line3, line4, line5, line6;
 
                 line = input.nextLine();
-                try (Scanner data = new Scanner(line)) {
-                    while (data.hasNextLine()) {
-                        startDate += data.next() + "";
+                line2 = input2.nextLine();
+                line3 = input3.nextLine();
+                line4 = input4.nextLine();
+                line5 = input5.nextLine();
+                line6 = input6.nextLine();
+
+                Scanner data = new Scanner(line);
+                Scanner data2 = new Scanner(line2);
+                Scanner data3 = new Scanner(line3);
+                Scanner data4 = new Scanner(line4);
+                Scanner data5 = new Scanner(line5);
+                Scanner data6 = new Scanner(line6);
+
+                    while (data.hasNextLine()
+                            && data2.hasNextLine()
+                            && data3.hasNextLine()
+                            && data4.hasNextLine()
+                            && data5.hasNextLine()
+                            && data6.hasNextLine()) {
+                        setStartDate(data.next() + " " + data.next() + " " + data.next());
+                        setStartTime(data2.next() + " ");
+                        setVisitorTeam(data3.next() + " " + data3.next());
+                        setVisitorPts(data4.next() + " ");
+                        setHomeTeam(data5.next() + " " + data5.next());
+                        setHomePts(data6.next() + " ");
                     }
-                    startDate = startDate.trim(); // .trim() method removes white spaces
+//                    startDate = startDate.trim(); // .trim() method removes white spaces
+//                    startTime = startTime.trim(); // .trim() method removes white spaces
+//                    visitorTeam = visitorTeam.trim(); // .trim() method removes white spaces
+//                    visitorPts = visitorPts.trim(); // .trim() method removes white spaces
+//                    homeTeam = homeTeam.trim(); // .trim() method removes white spaces
+//                    homePts = homePts.trim(); // .trim() method removes white spaces
+
                     saveData();
                 }
-            }
-            } catch(IOException e){
-            System.out.println(e);
-        }
     }
-    // Read game start time
-    public void readBbGameTime() throws Exception{
-        Scanner input = new Scanner(new File("src/main/resources/gameData/bb-game-time.txt"));
-            while(input.hasNextLine()) {
-                startTime = "";
-                String line;
-
-                line = input.nextLine();
-                Scanner data = new Scanner(line);
-                    while (data.hasNextLine()) {
-                        startTime += data.next() + "";
-                    }
-                    startTime = startTime.trim(); // .trim() method removes white spaces
-                    saveData();
-            }
-        }
-        // Read Visitor team name
-        public void readBbVisitorTeam() throws Exception{
-            Scanner input = new Scanner(new File("src/main/resources/gameData/bb-game-visitorTeam.txt"));
-            while(input.hasNextLine()) {
-                visitorTeam = "";
-                String line;
-
-                line = input.nextLine();
-                Scanner data = new Scanner(line);
-                while (data.hasNextLine()) {
-                    visitorTeam += data.next() + "";
-                }
-                visitorTeam = visitorTeam.trim(); // .trim() method removes white spaces
-                saveData();
-            }
-        }
-    // Read Visitor team points
-    public void readBbVisitorTeamPoints() throws Exception{
-        Scanner input = new Scanner(new File("src/main/resources/gameData/bb-game-visitorPoints.txt"));
-        while(input.hasNextLine()) {
-            visitorPts = "";
-            String line;
-
-            line = input.nextLine();
-            Scanner data = new Scanner(line);
-            while (data.hasNextLine()) {
-                visitorPts += data.next() + "";
-            }
-            visitorPts = visitorPts.trim(); // .trim() method removes white spaces
-            saveData();
-        }
-    }
-    // Read Home team
-    public void readBbHomeTeam() throws Exception{
-        Scanner input = new Scanner(new File("src/main/resources/gameData/bb-game-homeTeam.txt"));
-        while(input.hasNextLine()) {
-            homeTeam = "";
-            String line;
-
-            line = input.nextLine();
-            Scanner data = new Scanner(line);
-            while (data.hasNextLine()) {
-                homeTeam += data.next() + "";
-            }
-            homeTeam = homeTeam.trim(); // .trim() method removes white spaces
-            saveData();
-        }
-    }
-    // Read Visitor team points
-    public void readBbHomeTeamPoints() throws Exception{
-        Scanner input = new Scanner(new File("src/main/resources/gameData/bb-game-homePoints.txt"));
-        while(input.hasNextLine()) {
-            homePts = "";
-            String line;
-
-            line = input.nextLine();
-            Scanner data = new Scanner(line);
-            while (data.hasNextLine()) {
-                homePts += data.next() + "";
-            }
-            homePts = homePts.trim(); // .trim() method removes white spaces
-            saveData();
-        }
-    }
-
     // Save data to db
     private void saveData(){
         try (Connection conn = connect()) {
@@ -150,12 +106,12 @@ public class BasketballGameData {
             )) {
 
                 pstat.setLong(1, getGameId());
-                pstat.setString(4, startDate);
-                pstat.setString(5, startTime);
-                pstat.setString(7, visitorTeam);
-                pstat.setString(6, visitorPts);
-                pstat.setString(3, homeTeam);
-                pstat.setString(2, homePts);
+                pstat.setString(4, getStartDate());
+                pstat.setString(5, getStartTime());
+                pstat.setString(7, getVisitorTeam());
+                pstat.setString(6, getVisitorPts());
+                pstat.setString(3, getHomeTeam());
+                pstat.setString(2, getHomePts());
 
                 pstat.executeUpdate();
             }
@@ -180,18 +136,7 @@ class FDemo{
     public static void main(String[] args) throws Exception{
 
         BasketballGameData basketballGameData = new BasketballGameData();
-
-        //basketballGameData.readBbGameDates();
-
-        //basketballGameData.readBbGameTime();
-
-        //basketballGameData.readBbVisitorTeam();
-
-        //basketballGameData.readBbVisitorTeamPoints();
-
-        //basketballGameData.readBbHomeTeam();
-
-        //basketballGameData.readBbHomeTeamPoints();
+        basketballGameData.readBbGameData();
 
     }
 }

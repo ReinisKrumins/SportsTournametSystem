@@ -1,7 +1,6 @@
 package io.stsystem.sportsteamservice.controller;
 
-import io.stsystem.sportsteamservice.model.BasketballGameData;
-import io.stsystem.sportsteamservice.service.GameDataService;
+import io.stsystem.sportsteamservice.service.BasketballDataService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MainController {
 
     @Autowired
-    private final GameDataService gameDataService;
+    private final BasketballDataService basketballDataService;
 
     @GetMapping("/")
     public String testFunction(){

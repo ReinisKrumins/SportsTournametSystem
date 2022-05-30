@@ -1,4 +1,4 @@
-package io.stsystem.sportsteamservice;
+package io.stsystem.sportsteamservice.jobs;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -10,7 +10,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
+import java.util.Scanner;
 
 @Configuration
 @EnableScheduling
