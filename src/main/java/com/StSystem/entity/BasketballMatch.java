@@ -1,4 +1,4 @@
-package io.stsystem.sportsteamservice.model;
+package com.StSystem.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,10 +6,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.File;
-import java.io.IOException;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.util.ArrayList;
 import java.util.Scanner;
 import java.sql.*;
 
@@ -19,7 +17,7 @@ import java.sql.*;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class BasketballGameData {
+public class BasketballMatch {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +36,7 @@ public class BasketballGameData {
     @Column
     private String homePts;
 
-    public BasketballGameData(String startDate){
+    public BasketballMatch(String startDate){
         setStartDate(startDate);
     }
 
@@ -135,8 +133,8 @@ public class BasketballGameData {
 class FDemo{
     public static void main(String[] args) throws Exception{
 
-        BasketballGameData basketballGameData = new BasketballGameData();
-        basketballGameData.readBbGameData();
+        BasketballMatch basketballMatch = new BasketballMatch();
+        basketballMatch.readBbGameData();
 
     }
 }

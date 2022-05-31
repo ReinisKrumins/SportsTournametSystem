@@ -1,4 +1,4 @@
-package io.stsystem.sportsteamservice.jobs;
+package com.StSystem.jobs;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
