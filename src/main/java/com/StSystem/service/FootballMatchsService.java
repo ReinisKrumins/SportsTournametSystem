@@ -70,7 +70,7 @@ public class FootballMatchsService {
                 throw e;
             }
 
-        }else {
+        } else {
             return "Match does not exist";
         }
     }
@@ -86,5 +86,4 @@ public class FootballMatchsService {
         upcommingMatchs.remove(0);
         return upcommingMatchs;
     }
-
 }

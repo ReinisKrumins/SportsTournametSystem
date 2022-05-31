@@ -41,18 +41,18 @@ public class MainController {
         return "basketball";
     }
 
-    @RequestMapping("/vollyball.html")
-    public String getVollyballMatches(){
-        return "vollyball";
+    @RequestMapping("/volleyball.html")
+    public String getVolleyballMatches() {
+        return "volleyball";
     }
 
     @RequestMapping("/contact.html")
-    public String getContactPage(){
+    public String getContactPage() {
         return "contact";
     }
 
     @RequestMapping("/wp-admin")
-    public String adminLogin(){
+    public String adminLogin() {
         return "login";
     }
 }
