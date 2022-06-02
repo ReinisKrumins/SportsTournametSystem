@@ -53,7 +53,7 @@
             <div class="d-flex align-items-center">
                 <div class="site-logo">
                     <a href="index.html">
-                        <img src="images/logo.png" alt="Logo">
+                        <img src="images/SOCCER.png" alt="Logo">
                     </a>
                 </div>
                 <div class="ml-auto">
@@ -80,7 +80,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-5 ml-auto">
                     <h1 class="text-white">Sports Tournament System</h1>
-                    <p>A website where you can find upcoming Football, Baseball and Volleyball matches schedule and live matches scoors.</p>
+                    <p>A website where you can find upcoming Football, Basketball and Volleyball matches schedule</p>
                     <p id="date"></p>
                 </div>
             </div>
@@ -131,7 +131,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="match: ${footballMatchs}">
+                            <tr th:each="match: ${footballMatches}">
                                 <td th:text="${match.teamA}"/>
                                 <td th:text="${match.teamB}"/>
                                 <td th:text="${match.date}"/>
@@ -150,7 +150,7 @@
 <div class="site-section bg-light">
     <div class="container">
         <div class="col-12 title-section">
-            <h2 class="heading">Baseball Matches Schedule</h2>
+            <h2 class="heading">Basketball Matches Schedule</h2>
         </div>
 
         <div class="col-lg-12">
@@ -167,11 +167,11 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="match: ${footballMatchs}">
-                            <td th:text="${match.teamA}"/>
-                            <td th:text="${match.teamB}"/>
-                            <td th:text="${match.date}"/>
-                            <td th:text="${match.time}"/>
+                        <tr th:each="match: ${basketballMatches}">
+                            <td th:text="${match.homeTeam}"/>
+                            <td th:text="${match.visitorTeam}"/>
+                            <td th:text="${match.startDate}"/>
+                            <td th:text="${match.startTime}"/>
                         </tr>
                         </tbody>
                     </table>
@@ -201,7 +201,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="match: ${footballMatchs}">
+                        <tr th:each="match: ${footballMatches}">
                             <td th:text="${match.teamA}"/>
                             <td th:text="${match.teamB}"/>
                             <td th:text="${match.date}"/>

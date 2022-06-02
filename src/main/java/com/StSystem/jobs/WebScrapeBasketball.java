@@ -2,6 +2,7 @@ package com.StSystem.jobs;
 
 import com.StSystem.entity.BasketballMatch;
 import com.StSystem.service.BasketballMatchService;
+import lombok.AllArgsConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -19,14 +20,15 @@ import java.util.Scanner;
 
 @Configuration
 @EnableScheduling
+@AllArgsConstructor
 @ConditionalOnProperty(name = "scheduling.enable", matchIfMissing = true)
 public class WebScrapeBasketball {
 
     @Autowired
-    BasketballMatchService basketballMatchService;
+    private final BasketballMatchService basketballMatchService;
     // use cron to specify exact time when to execute (s, m, h, *, *, MON-SUN)
     // (cron = "* * * * * *")
-    @Scheduled(fixedDelayString = "PT10S")
+    @Scheduled(fixedDelayString = "PT10s")
 	void scrapeForBasketballGameData() throws Exception{
 
         basketballMatchService.clearOldData();
@@ -37,7 +39,7 @@ public class WebScrapeBasketball {
         BufferedWriter bw4 = new BufferedWriter(new FileWriter("src/main/resources/basketballGameData/bb-game-visitorPoints.txt"));
         BufferedWriter bw5 = new BufferedWriter(new FileWriter("src/main/resources/basketballGameData/bb-game-homeTeam.txt"));
         BufferedWriter bw6 = new BufferedWriter(new FileWriter("src/main/resources/basketballGameData/bb-game-homePoints.txt"));
-
+        BufferedWriter bw7 = new BufferedWriter(new FileWriter("src/main/resources/basketballGameData/bb-game-arena.txt"));
         final String url = "https://www.basketball-reference.com/leagues/NBA_2022_games-may.html";
 
             final Document document = Jsoup.connect(url).get();
@@ -81,6 +83,13 @@ public class WebScrapeBasketball {
                 bw6.write(el.text() + "\n");
             bw6.close();
 
+            // Arena where match takes place
+            Elements arena = document.select("tbody > tr > .left:nth-of-type(9)");
+            for (Element el: arena)
+                bw7.write(el.text() + "\n");
+            bw7.close();
+
+            // Call function to insert all data in database
             insertBasketballData();
 	}
 
@@ -93,15 +102,17 @@ public class WebScrapeBasketball {
         Scanner input4 = new Scanner(new File("src/main/resources/basketballGameData/bb-game-visitorPoints.txt"));
         Scanner input5 = new Scanner(new File("src/main/resources/basketballGameData/bb-game-homeTeam.txt"));
         Scanner input6 = new Scanner(new File("src/main/resources/basketballGameData/bb-game-homePoints.txt"));
+        Scanner input7 = new Scanner(new File("src/main/resources/basketballGameData/bb-game-arena.txt"));
 
         while(input.hasNextLine()
                 && input2.hasNextLine()
                 && input3.hasNextLine()
                 && input4.hasNextLine()
                 && input5.hasNextLine()
-                && input5.hasNextLine()) {
+                && input6.hasNextLine()
+                && input7.hasNextLine()) {
 
-            String line, line2, line3, line4, line5, line6;
+            String line, line2, line3, line4, line5, line6, line7;
 
             line = input.nextLine();
             line2 = input2.nextLine();
@@ -109,6 +120,7 @@ public class WebScrapeBasketball {
             line4 = input4.nextLine();
             line5 = input5.nextLine();
             line6 = input6.nextLine();
+            line7 = input7.nextLine();
 
             Scanner data = new Scanner(line);
             Scanner data2 = new Scanner(line2);
@@ -116,19 +128,22 @@ public class WebScrapeBasketball {
             Scanner data4 = new Scanner(line4);
             Scanner data5 = new Scanner(line5);
             Scanner data6 = new Scanner(line6);
+            Scanner data7 = new Scanner(line7);
 
             while (data.hasNextLine()
                     && data2.hasNextLine()
                     && data3.hasNextLine()
                     && data4.hasNextLine()
                     && data5.hasNextLine()
-                    && data6.hasNextLine()) {
+                    && data6.hasNextLine()
+                    && data7.hasNextLine()) {
                 basketballMatch.setStartDate(data.next() + " " + data.next() + " " + data.next());
-                basketballMatch.setStartTime(data2.next() + " ");
+                basketballMatch.setStartTime(data2.next() + "m ");
                 basketballMatch.setVisitorTeam(data3.next() + " " + data3.next());
                 basketballMatch.setVisitorPts(data4.next() + " ");
                 basketballMatch.setHomeTeam(data5.next() + " " + data5.next());
                 basketballMatch.setHomePts(data6.next() + " ");
+                basketballMatch.setArena(data7.next() + " Arena");
             }
             basketballMatchService.insertWithQuery(basketballMatch);
         }
