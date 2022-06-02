@@ -3,6 +3,12 @@
 <h2>Project description</h2>
 <p>SportsTournametSystem (STS) was made during Accenture Java bootcamp as a final group project.</p>
 <p>STS is a Spring Boot application that reads data from existing sports websites and displays information about sports torunaments</p>
+  <p>Creators:</p> 
+  <ul>
+     <li>@ReinisKrumins</li>
+     <li>@sdaqit96</li>
+     <li>@aizel7</li>
+  </ul>
 <h2>Technologies used</h2>
   <p>Backend:</p> 
   <ul>
