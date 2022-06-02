@@ -37,8 +37,6 @@ public class FootballController {
         return footballMatchsService.updateFootballMatch(footballMatch);
     }
 
-    @RequestMapping(value = "deletefootballmatch", method = RequestMethod.DELETE)
-    public String deleteMatch(@RequestBody FootballMatch footballMatch){
-        return footballMatchsService.deleteFootballMatch(footballMatch);
-    }
+
+
 }

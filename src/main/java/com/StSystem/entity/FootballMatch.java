@@ -26,7 +26,21 @@ public class FootballMatch {
     @Column(name = "Match_Time")
     private String time;
 
+    @Column(name= "Groud")
+    private String ground;
+
+    @Column(name = "League")
+    private String league;
+
     public FootballMatch() {
+    }
+    public FootballMatch(String teamA, String teamB, String date, String time, String ground, String league) {
+        this.setTeamA(teamA);
+        this.setTeamB(teamB);
+        this.setDate(date);
+        this.setTime(time);
+        this.setGround(ground);
+        this.setLeague(league);
     }
 
     public int getId() {
@@ -69,6 +83,14 @@ public class FootballMatch {
         this.time = time;
     }
 
+    public String getGround() { return ground; }
+
+    public void setGround(String ground) { this.ground = ground; }
+
+    public String getLeague() { return league; }
+
+    public void setLeague(String league) { this.league = league; }
+
     @Override
     public String toString() {
         return "Match{" +
@@ -77,6 +99,8 @@ public class FootballMatch {
                 ", Team A Name='" + getTeamA() + '\'' +
                 ", Match Date='" + getDate() + '\'' +
                 ", Match Time='" + getTime() + '\'' +
+                ", Match League='" + getLeague() + '\'' +
+                ", Match Ground='" + getGround() + '\'' +
                 '}';
     }
 
