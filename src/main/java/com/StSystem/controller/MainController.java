@@ -1,12 +1,10 @@
 package com.StSystem.controller;
 
-import com.StSystem.entity.Admin;
-import com.StSystem.entity.BasketballMatch;
-import com.StSystem.entity.FootballMatch;
-import com.StSystem.entity.UserMessages;
+import com.StSystem.entity.*;
 import com.StSystem.service.BasketballMatchService;
 import com.StSystem.service.FootballMatchsService;
 import com.StSystem.service.UserMessagesService;
+import com.StSystem.service.VolleyballMatchesService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,13 +26,19 @@ public class MainController {
     private final BasketballMatchService basketballMatchService;
 
     @Autowired
+    private final VolleyballMatchesService volleyballMatchesService;
+
+    @Autowired
     UserMessagesService userMessagesService;
 
     @GetMapping("/")
     public String getHome(Model model){
         footballMatchsService.fetctMatchs();
+        volleyballMatchesService.scrapeMatches();
         model.addAttribute("footballMatches", footballMatchsService.readtopMatches());
         model.addAttribute("basketballMatches", basketballMatchService.getBasketballMatches());
+        model.addAttribute("basketballMatches", volleyballMatchesService.readMatches());
+
         return "index";
     }
 
@@ -58,7 +62,11 @@ public class MainController {
     }
 
     @RequestMapping("/volleyball.html")
-    public String getVolleyballMatches() {
+    public String getVolleyballMatches(Model model) {
+        VolleyballMatch volleyballMatch = volleyballMatchesService.readMatches().get(0);
+        model.addAttribute("volleyballMatches", volleyballMatchesService.readMatches());
+        model.addAttribute("nextVolleyballMatch", volleyballMatch);
+        model.addAttribute("time", LocalTime.now().getHour()+":"+LocalTime.now().getMinute());
         return "volleyball";
     }
 
