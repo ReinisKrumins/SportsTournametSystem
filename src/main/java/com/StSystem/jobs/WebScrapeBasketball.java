@@ -28,7 +28,7 @@ public class WebScrapeBasketball {
     private final BasketballMatchService basketballMatchService;
     // use cron to specify exact time when to execute (s, m, h, *, *, MON-SUN)
     // (cron = "* * * * * *")
-    @Scheduled(fixedDelayString = "PT10s")
+    @Scheduled(fixedDelayString = "PT12H")
 	void scrapeForBasketballGameData() throws Exception{
 
         basketballMatchService.clearOldData();
