@@ -30,4 +30,5 @@
      <li>MySQL connector java</li>
      <li>Lombok</li>
      <li>JSoup</li>
+     <li>Spring Boot starter security</li>
   </ul>
