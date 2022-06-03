@@ -10,7 +10,7 @@ import java.util.List;
 public interface VolleyballRepository extends JpaRepository<VolleyballMatch, Integer> {
     public List<VolleyballMatch> findBydate(String date);
 
-    @Query(value="select max(s.id) from sportstournament.volleyballmatch s", nativeQuery = true)
+    @Query(value="select max(s.id) from volleyballmatch s", nativeQuery = true)
     public Integer findMaxId();
 
     public boolean existsBydate(String date);
