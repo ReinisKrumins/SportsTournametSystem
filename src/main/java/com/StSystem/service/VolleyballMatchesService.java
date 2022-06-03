@@ -3,11 +3,15 @@ package com.StSystem.service;
 
 import com.StSystem.entity.VolleyballMatch;
 import com.StSystem.repository.VolleyballRepository;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.util.List;
 
 @Component
@@ -75,4 +79,34 @@ public class VolleyballMatchesService {
             return "Match does not exist";
         }
     }
+
+    @Transactional
+    public void scrapeMatches()  {
+        //   volleyballMatchService.clearOldData();
+
+        final String url = "https://www.basketball-reference.com/leagues/NBA_2022_games-may.html";
+       try{
+        final Document document = Jsoup.connect(url).get();
+        // Read dates
+        Elements dates = document.select("tbody > tr > .left:nth-of-type(1)");
+        Elements startTime = document.select("tbody > tr > .right:nth-of-type(1)");
+        Elements visitorTeam = document.select("tbody > tr > .left:nth-of-type(2)");
+        Elements homeTeam = document.select("tbody > tr > .left:nth-of-type(4)");
+
+        for(int i=0; i< dates.size(); i++)
+        {
+            VolleyballMatch volleyballMatch = new VolleyballMatch();
+            volleyballMatch.setDate(dates.get(i).toString());
+            volleyballMatch.setTime(startTime.get(i).toString());
+            volleyballMatch.setTeamA(homeTeam.get(i).toString());
+            volleyballMatch.setTeamB(visitorTeam.get(i).toString());
+
+            createVolleyballMatch(volleyballMatch);
+        }
+    }
+        catch (Exception ex) {
+        ex.printStackTrace();
+    }
+    }
+
 }

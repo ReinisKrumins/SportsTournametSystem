@@ -84,22 +84,6 @@ public class MainController {
         userMessagesService.saveMessage(user);
         return "contact";
     }
-//    @RequestMapping("/login")
-//    public String adminLogin(Model model){
-//        Admin admin = new Admin();
-//        model.addAttribute("admin", admin);
-//        return "login";
-//    }
-
-//    @PostMapping("/login")
-//    public String validateAdmin(@ModelAttribute("admin") Admin admin, Model model) {
-//        System.out.println(admin.toString());
-//        if (admin.getUserName().equals("sid") && admin.getPassword().equals("1234footballadmin")) {
-//            return "wp-admin-1234footballadmin";
-//        } else {
-//            return "login";
-//        }
-//    }
     @RequestMapping("/wp-admin")
     public String wpAdmin(Model model){
         model.addAttribute("footballMatchs", footballMatchsService.readMatchs());
