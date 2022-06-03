@@ -7,13 +7,16 @@ import com.StSystem.entity.UserMessages;
 import com.StSystem.service.BasketballMatchService;
 import com.StSystem.service.FootballMatchsService;
 import com.StSystem.service.UserMessagesService;
+import com.StSystem.service.VolleyballMatchesService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.security.RolesAllowed;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -28,6 +31,9 @@ public class MainController {
     private final BasketballMatchService basketballMatchService;
 
     @Autowired
+    private final VolleyballMatchesService volleyballMatchesService;
+
+    @Autowired
     UserMessagesService userMessagesService;
 
     @GetMapping("/")
@@ -35,6 +41,8 @@ public class MainController {
         footballMatchsService.fetctMatchs();
         model.addAttribute("footballMatches", footballMatchsService.readtopMatches());
         model.addAttribute("basketballMatches", basketballMatchService.getBasketballMatches());
+        model.addAttribute("volleyballMatches", volleyballMatchesService.readMatches());
+
         return "index";
     }
 
@@ -58,7 +66,9 @@ public class MainController {
     }
 
     @RequestMapping("/volleyball.html")
-    public String getVolleyballMatches() {
+    public String getVolleyballMatches(Model model) {
+        model.addAttribute("volleyballMatches", volleyballMatchesService.readMatches());
+        model.addAttribute("time", LocalTime.now().getHour()+":"+LocalTime.now().getMinute());
         return "volleyball";
     }
 
@@ -74,26 +84,26 @@ public class MainController {
         userMessagesService.saveMessage(user);
         return "contact";
     }
-    @RequestMapping("/login")
-    public String adminLogin(Model model){
-        Admin admin = new Admin();
-        model.addAttribute("admin", admin);
-        return "login";
-    }
+//    @RequestMapping("/login")
+//    public String adminLogin(Model model){
+//        Admin admin = new Admin();
+//        model.addAttribute("admin", admin);
+//        return "login";
+//    }
 
-    @PostMapping("/login")
-    public String validateAdmin(@ModelAttribute("admin") Admin admin, Model model) {
-        System.out.println(admin.toString());
-        if (admin.getUserName().equals("sid") && admin.getPassword().equals("1234footballadmin")) {
-            return "wp-admin-1234footballadmin";
-        } else {
-            return "login";
-        }
-    }
-    @RequestMapping("/wp-admin-1234footballadmin")
+//    @PostMapping("/login")
+//    public String validateAdmin(@ModelAttribute("admin") Admin admin, Model model) {
+//        System.out.println(admin.toString());
+//        if (admin.getUserName().equals("sid") && admin.getPassword().equals("1234footballadmin")) {
+//            return "wp-admin-1234footballadmin";
+//        } else {
+//            return "login";
+//        }
+//    }
+    @RequestMapping("/wp-admin")
     public String wpAdmin(Model model){
         model.addAttribute("footballMatchs", footballMatchsService.readMatchs());
-        return "wp-admin-1234footballadmin";
+        return "wp-admin";
     }
     @GetMapping("/deletefootballmatch/{id}")
     public String deleteEmployee(@PathVariable (value = "id") int id, Model model) {
