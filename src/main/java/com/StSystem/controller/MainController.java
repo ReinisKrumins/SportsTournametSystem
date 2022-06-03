@@ -1,9 +1,6 @@
 package com.StSystem.controller;
 
-import com.StSystem.entity.Admin;
-import com.StSystem.entity.BasketballMatch;
-import com.StSystem.entity.FootballMatch;
-import com.StSystem.entity.UserMessages;
+import com.StSystem.entity.*;
 import com.StSystem.service.BasketballMatchService;
 import com.StSystem.service.FootballMatchsService;
 import com.StSystem.service.UserMessagesService;
@@ -39,6 +36,7 @@ public class MainController {
     @GetMapping("/")
     public String getHome(Model model){
         footballMatchsService.fetctMatchs();
+        volleyballMatchesService.scrapeMatches();
         model.addAttribute("footballMatches", footballMatchsService.readtopMatches());
         model.addAttribute("basketballMatches", basketballMatchService.getBasketballMatches());
         model.addAttribute("volleyballMatches", volleyballMatchesService.readMatches());
@@ -67,7 +65,9 @@ public class MainController {
 
     @RequestMapping("/volleyball.html")
     public String getVolleyballMatches(Model model) {
+        VolleyballMatch match = volleyballMatchesService.readMatches().get(0);
         model.addAttribute("volleyballMatches", volleyballMatchesService.readMatches());
+        model.addAttribute("nextMatch", match);
         model.addAttribute("time", LocalTime.now().getHour()+":"+LocalTime.now().getMinute());
         return "volleyball";
     }

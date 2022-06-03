@@ -96,10 +96,10 @@ public class VolleyballMatchesService {
         for(int i=0; i< dates.size(); i++)
         {
             VolleyballMatch volleyballMatch = new VolleyballMatch();
-            volleyballMatch.setDate(dates.get(i).toString());
-            volleyballMatch.setTime(startTime.get(i).toString());
-            volleyballMatch.setTeamA(homeTeam.get(i).toString());
-            volleyballMatch.setTeamB(visitorTeam.get(i).toString());
+            volleyballMatch.setDate(dates.get(i).text());
+            volleyballMatch.setTime(startTime.get(i).text());
+            volleyballMatch.setTeamA(homeTeam.get(i).text());
+            volleyballMatch.setTeamB(visitorTeam.get(i).text());
 
             createVolleyballMatch(volleyballMatch);
         }
